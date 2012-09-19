@@ -1,0 +1,54 @@
+<!--[if	IE]>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML	4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<![endif]-->
+
+<!--[if	!IE]> -->
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD	XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile11.dtd" >
+<!--><![endif]-->
+
+<html>
+<head>
+	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8"/>
+	<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; user-scalable=0; target-densitydpi=device-dpi"/>
+	<script	type="text/javascript" src="bx/blux-bxg-1.0.0.js"></script>
+	<script	type="text/javascript" src="bx/bxg-core-1.0.0.js"></script>
+	<script	type="text/javascript" src="main.js"></script>
+	<script type="text/javascript">
+		function init()
+		{
+			bxg.load({debug:true});
+		}
+	</script>
+	<style>
+	</style>
+	<title>BXG Sample Game - Snake</title>
+</head>
+<body style="background-color:#000000">
+<div class="phonegap_initObject"></div>
+<script type="text/javascript" charset="utf-8" src="cordova-2.0.0.js"></script>
+<script>
+    var phonegap_initObject = {
+	    initialize: function() {
+	        this.bind();
+	    },
+	    bind: function() {
+	        document.addEventListener('deviceready', this.deviceready, false);
+	    },
+	    deviceready: function() {
+	        // note that this is an event handler so the scope is that of the event
+	        // so we need to call app.report(), and not this.report()
+	        //app.report('deviceready');
+	        init();
+	    },
+	    report: function(id) { 
+	        console.log("report:" + id);
+	        // hide the .pending <p> and show the .complete <p>
+	        document.querySelector('#' + id + ' .pending').className += ' hide';
+	        var completeElem = document.querySelector('#' + id + ' .complete');
+	        completeElem.className = completeElem.className.split('hide').join('');
+	    }
+	};
+	phonegap_initObject.initialize();
+</script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!--[if	IE]>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML	4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<![endif]-->
+
+<!--[if	!IE]> -->
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD	XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile11.dtd" >
+<!--><![endif]-->
+
+<html>
+<head>
+	<meta http-equiv="Content-Type"	content="text/html;	charset=utf-8"/>
+	<meta name="viewport" content="initial-scale=1.0; maximum-scale=1.0; user-scalable=0; target-densitydpi=device-dpi"/>
+	<script	type="text/javascript" src="bx/blux-bxg-1.0.0.js"></script>
+	<script	type="text/javascript" src="bx/bxg-core-1.0.0.js"></script>
+	<script	type="text/javascript" src="main.js"></script>
+	<script type="text/javascript">
+	/*
+	* !!Important!!
+	* Following two lines are only for landscape mode for iOS.
+	* You should redefine two viewport functions in blux HCL like this:
+	* */
+	bx.HCL.getViewportWidth = function() { return 960; }
+	bx.HCL.getViewportHeight = function() { return 640; }
+	
+	function onBodyLoad() {
+		document.addEventListener("onDeviceReady",onDeviceReady,false);
+		
+		if (window.gamePause) {
+			//console.log('addEvent pause');
+			
+			document.addEventListener("pause", gamePause, false);
+		}
+		if (window.gameResume) {
+			//console.log('addEvent resume');
+			
+			document.addEventListener("resume", gameResume, false);
+		}
+	}
+	
+	function onDeviceReady() {
+	
+		if(window.webkitRequestFileSystem)
+			console.log('HTML5 fs exists!');
+		else
+			console.log('HTML5 fs NOT exists!');
+		if(window.localStorage)
+			console.log('localStorage exists');
+		else
+			console.log('localStorage NOT exists');
+			
+		console.log('DetectLayer:' + bx.OEM.detectLayer());
+		document.removeEventListener('onDeviceReady', onDeviceReady, false);
+		console.log('all initialize over and device ready');
+		
+		//alert(window.innerWidth + '/' + window.innerHeight);
+	
+		setTimeout(function(){
+			window.scrollTo(0,1);
+			bxg.load({debug:true});
+		}, 300);
+	}
+	</script>
+	<style>
+	</style>
+	<title>BXG Sample Game - Snake</title>
+</head>
+<body style="background-color:#000000" onload="bxg.load({debug:true});">
+</body>
+</html>
