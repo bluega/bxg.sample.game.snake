@@ -173,7 +173,7 @@ bxg.onGame = function()
 			 {renderer:'DOM', align:{x:'center', y:'center'}});
 
  	// Set background color of game world by HTML CSS (This is very simple way to change it)
-	// (or it can be done by CImageObject)
+	// (or it can be done by CImage)
 	bxg.playGround.style.backgroundColor = '#aacc99';
 
 	// This game is only for keyboard device
