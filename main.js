@@ -41,63 +41,63 @@ ISnakeManger = {
 
 // This control manager, this manager will control main game logic.
 IGameManager = {
-	onInputEvent: function(/*CControl*/ctrl, /*Object*/evtMap)
+	onInputEvent: function(/*CControl*/control, /*Object*/evtMap)
 	{
-		if (evtMap.moveLeft && evtMap.moveLeft.fired && ctrl.data.dX != 1){
-			ctrl.data.dX = -1;
-			ctrl.data.dY = 0;
+		if (evtMap.moveLeft && evtMap.moveLeft.fired && control.data.dX != 1){
+			control.data.dX = -1;
+			control.data.dY = 0;
 		}
-		else if (evtMap.moveRight && evtMap.moveRight.fired && ctrl.data.dX != -1){
-			ctrl.data.dX = 1;
-			ctrl.data.dY = 0;
+		else if (evtMap.moveRight && evtMap.moveRight.fired && control.data.dX != -1){
+			control.data.dX = 1;
+			control.data.dY = 0;
 		}
-		else if (evtMap.moveUp && evtMap.moveUp.fired && ctrl.data.dY != 1){
-			ctrl.data.dX = 0;
-			ctrl.data.dY = -1;
+		else if (evtMap.moveUp && evtMap.moveUp.fired && control.data.dY != 1){
+			control.data.dX = 0;
+			control.data.dY = -1;
 		}
-		else if (evtMap.moveDown && evtMap.moveDown.fired && ctrl.data.dY != -1){
-			ctrl.data.dX = 0;
-			ctrl.data.dY = 1;
+		else if (evtMap.moveDown && evtMap.moveDown.fired && control.data.dY != -1){
+			control.data.dX = 0;
+			control.data.dY = 1;
 		}
 	}
-	,onTick: function(/*CControl*/ctrl, /*Number*/tickId)
+	,onTick: function(/*CControl*/control, /*Number*/tickId)
 	{
 		// Move snake by put the tail into the head position.
 		// And, only the head will have collision detection function.
-		ctrl.data._pop = ctrl.data.snake.pop();
+		control.data._pop = control.data.snake.pop();
 		
-		ctrl.data._pop.data.pos.x = ctrl.data.snake[0].data.pos.x + ctrl.data.dX;
-		ctrl.data._pop.data.pos.y = ctrl.data.snake[0].data.pos.y + ctrl.data.dY;
+		control.data._pop.data.pos.x = control.data.snake[0].data.pos.x + control.data.dX;
+		control.data._pop.data.pos.y = control.data.snake[0].data.pos.y + control.data.dY;
 		
-		ctrl.data.snake[0].data.collision = false;
-		ctrl.data._pop.data.collision = true;
+		control.data.snake[0].data.collision = false;
+		control.data._pop.data.collision = true;
 		
-		ctrl.data.snake.unshift(ctrl.data._pop);
+		control.data.snake.unshift(control.data._pop);
 	}
-	,onReset: function(/*CControl*/ctrl)
+	,onReset: function(/*CControl*/control)
 	{
 		var i;
 		
 		// Cleanup data of previous run by destroying objects.
 		// (This is just a simple way, it will be better to just remove from game control and add it again.)
-		if(ctrl.data.snake){
-			for(i = 0; i < ctrl.data.snake.length; i ++){
-				ctrl.data.snake[i].destroy();
+		if(control.data.snake){
+			for(i = 0; i < control.data.snake.length; i ++){
+				control.data.snake[i].destroy();
 			}
-			delete ctrl.data.snake;
+			delete control.data.snake;
 		}
 		
 		// Init internal data
-		ctrl.data.snake = [];
-		ctrl.data.dX = -1; // To Left
-		ctrl.data.dY = 0;
+		control.data.snake = [];
+		control.data.dX = -1; // To Left
+		control.data.dY = 0;
 		
 		// Creating the snake body. Start with 17 nodes in body.
 		for(i = 0; i < 17; i ++){
-			this.addBody(ctrl, {x:Math.floor(bxg.area.w/2/bxg.c.sizeSnake), y:Math.floor(bxg.area.h/2/bxg.c.sizeSnake)});
+			this.addBody(control, {x:Math.floor(bxg.area.w/2/bxg.c.sizeSnake), y:Math.floor(bxg.area.h/2/bxg.c.sizeSnake)});
 		}
 		
-		this.putFood(ctrl);
+		this.putFood(control);
 	}
 	,restartGame: function()
 	{
@@ -105,53 +105,53 @@ IGameManager = {
 		bxg.game.end();
 		bxg.game.run();
 	}
-	,putFood: function(/*CControl*/ctrl) // Put 
+	,putFood: function(/*CControl*/control) // Put 
 	{
 		// Put food in view screen and away 4-grids distance from any snake body.
 		
 		// Create Food object
-		if (!ctrl.data.objFood){
-			ctrl.data.objFood = bxg.ObjectFactory.build('obj.food');
+		if (!control.data.objFood){
+			control.data.objFood = bxg.ObjectFactory.build('obj.food');
 			
-			ctrl.add(ctrl.data.objFood);
+			control.add(control.data.objFood);
 		}
 		
-		ctrl.data._setFood = false;
-		ctrl.data._posFood = ctrl.data._posFood || {x:0, y:0};
+		control.data._setFood = false;
+		control.data._posFood = control.data._posFood || {x:0, y:0};
 		
-		while(!ctrl.data._setFood){
-			ctrl.data._posFood.x = Math.floor(Math.random()*bxg.area.w/bxg.c.sizeSnake);
-			ctrl.data._posFood.y = Math.floor(Math.random()*bxg.area.h/bxg.c.sizeSnake);
+		while(!control.data._setFood){
+			control.data._posFood.x = Math.floor(Math.random()*bxg.area.w/bxg.c.sizeSnake);
+			control.data._posFood.y = Math.floor(Math.random()*bxg.area.h/bxg.c.sizeSnake);
 			
-			if (bxg.Geometry.getDistance(ctrl.data._posFood, ctrl.data.snake[0].data.pos) > 4){
-				ctrl.data._setFood = true;
+			if (bxg.Geometry.getDistance(control.data._posFood, control.data.snake[0].data.pos) > 4){
+				control.data._setFood = true;
 			
-				ctrl.data.objFood.move(ctrl.data._posFood.x*bxg.c.sizeSnake, ctrl.data._posFood.y*bxg.c.sizeSnake);
+				control.data.objFood.move(control.data._posFood.x*bxg.c.sizeSnake, control.data._posFood.y*bxg.c.sizeSnake);
 
-				if (!ctrl.data.objFood.active){
-					ctrl.data.objFood.activate();
-					ctrl.data.objFood.show();
+				if (!control.data.objFood.active){
+					control.data.objFood.activate();
+					control.data.objFood.show();
 				}
 			}
 		}
 	}
-	,addBody: function(/*CControl*/ctrl, /*Object|undefined*/pos) // Add snake body.
+	,addBody: function(/*CControl*/control, /*Object|undefined*/pos) // Add snake body.
 	{
 		var obj;
 		
 		// Create snake body and add to tail.
-		ctrl.add(obj = bxg.ObjectFactory.build('obj.body'));
+		control.add(obj = bxg.ObjectFactory.build('obj.body'));
 		
 		if (pos){
 			obj.data.pos = pos;
 		}
 		else{ // Add to tail
-			obj.data.pos = {x:ctrl.data.snake[ctrl.data.snake.length-1].data.pos.x, y:ctrl.data.snake[ctrl.data.snake.length-1].data.pos.y};
+			obj.data.pos = {x:control.data.snake[control.data.snake.length-1].data.pos.x, y:control.data.snake[control.data.snake.length-1].data.pos.y};
 		}
 		
 		obj.activate();
 		
-		ctrl.data.snake.push(obj);
+		control.data.snake.push(obj);
 	}
 }
 
@@ -164,13 +164,13 @@ IGameManager = {
 bxg.onGame = function()
 {
 	// Configurations
-	bxg.c.tick = 80; // in msec
+	bxg.c.tick = 280; // in msec
 	bxg.c.scrSize = {w:480, h:320}; // game screen size
 	bxg.c.sizeSnake = 10; // dimension size of each circle that comprise the snake body
 	
 	// Initialize BXG engine, aligning in page center
 	bxg.init({x:0, y:0, w:bxg.c.scrSize.w, h:bxg.c.scrSize.h},
-			 {renderer:'DOM', align:{x:'center', y:'center'}});
+			 {renderer:'canvas', align:{x:'center', y:'center'}});
 
  	// Set background color of game world by HTML CSS (This is very simple way to change it)
 	// (or it can be done by CImage)
